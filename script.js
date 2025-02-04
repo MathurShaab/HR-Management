@@ -10,10 +10,10 @@ function togglePasswordVisibility() {
     }
 }
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    window.location.href = 'dashboard.html';
-});
+// document.getElementById('loginForm').addEventListener('submit', function(event) {
+//     event.preventDefault();
+//     //window.location.href = 'dashboard.html';
+// });
 
 function navigateTo(page) {
     window.location.href = page;

@@ -79,6 +79,9 @@ button:hover {
 .card:hover {
     background-color: #e2e6ea;
 }
+.hidden {
+    display: none;
+}
 
 .questions, .candidate-list {
     text-align: left;

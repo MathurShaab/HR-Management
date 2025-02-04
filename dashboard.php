@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['name'])) {
+        header('Location: index.php');
+    }
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +15,19 @@
 <body>
     <div class="dashboard-container">
         <h1>Dashboard</h1>
+        <div class="user-info">
+            <p>Welcome, <?php echo $_SESSION['name']; ?></p>
+            <a href="index.php">Logout</a>
         <div class="cards-container">
-            <div class="card" onclick="navigateTo('interview.html')">
+            <div class="card" onclick="navigateTo('interview.php')">
                 <h2>Interview Schedule</h2>
                 <p>Click to view Candidates List</p>
             </div>
-            <div class="card" onclick="navigateTo('manage.html')">
+            <div class="card" onclick="navigateTo('manage.php')">
                 <h2>Manage Candidate</h2>
                 <p>Click to manage candidates.</p>
             </div>
-            <div class="card" onclick="navigateTo('register.html')">
+            <div class="card" onclick="navigateTo('register.php')">
                 <h2>Register New</h2>
                 <p>Click to register new candidates.</p>
             </div>
