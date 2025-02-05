@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Candidate</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Register New Candidate</h1>
+        <form id="registerForm">
+            <div class="input-group">
+                <label for="candidateName">Candidate Name</label>
+                <input type="text" id="candidateName" placeholder="Enter Full Name" required>
+            </div>
+            <div class="input-group">
+                <label for="candidateEmail">Candidate Email</label>
+                <input type="email" id="candidateEmail" placeholder="Enter Email Address" required>
+            </div>
+            <div class="input-group">
+                <label for="candidateContact">Contact Number</label>
+                <input type="tel" id="candidateContact" placeholder="Enter Contact Number" required>
+            </div>
+            <div class="input-group">
+                <label for="candidatePosition">Position Applied For</label>
+                <input type="text" id="candidatePosition" placeholder="Enter Position" required>
+            </div>
+            <div class="input-group">
+                <label for="candidateQualification">Highest Qualification</label>
+                <input type="text" id="candidateQualification" placeholder="Enter Qualification" required>
+            </div>
+            <div class="input-group">
+                <label for="candidateExperience">Experience (in years)</label>
+                <input type="number" id="candidateExperience" placeholder="Enter Experience" required>
+            </div>
+            <div class="input-group">
+                <label for="candidateResume">Upload Resume</label>
+                <input type="file" id="candidateResume" required>
+            </div>
+            <button type="submit" class="register-btn">Register</button>
+        </form>
+    </div>
+</body>
+</html>
