@@ -16,15 +16,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <title>HR Management - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+   
+      
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="dashboard_body">
     <div class="dashboard-container">
-        <h1>Dashboard</h1>
-        <div class="user-info">
-            <p>Welcome, <?php echo $_SESSION['name']; ?></p>
-            <a href="?logout=true">Logout</a>
+        <div class="header">
+            <div class="user-info">
+                <h1>Dashboard</h1>
+                <p><img src="img/ram.jpg" alt="Hey" style="width: 80px; height: 80px; margin-right: 10px;">Hi, <?php echo 
+                $_SESSION['name']?></p>
+            </div>
+            
+            <button class="logout-btn" onclick="window.location.href = '?logout=true';">Logout</button>
+        
+        
+        </div>
         <div class="cards-container">
             <div class="card" onclick="navigateTo('interview.php')">
                 <h2>Interview Schedule</h2>
@@ -40,7 +50,14 @@
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+        function logout() {
+            alert("Logging out...");
+            window.location.href = "login.php"; // Change to actual logout functionality
+        }
+    </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_conn.php'; // Database connection
+include 'db_conn.php';   // Database connection
 
 // Check if HR is logged in
 if (!isset($_SESSION['name'])) {
@@ -18,53 +18,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $candidateExperience = mysqli_real_escape_string($conn, $_POST['candidateExperience']);
     $HR_reference = $_SESSION['name'];  // HR reference from session
 
-    // Handle Resume Upload
-    $resumeName = $_FILES['candidateResume']['name'];
-    $resumeTmpName = $_FILES['candidateResume']['tmp_name'];
-    $resumePath = 'uploads/' . basename($resumeName);
-    move_uploaded_file($resumeTmpName, $resumePath);
-
-    // Generate Unique Candidate ID (e.g., CANDIDATE01)
-    $query = "SELECT COUNT(*) AS total FROM candidates";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
-    $count = $row['total'] + 1;
-    $candidateID = 'CANDIDATE' . str_pad($count, 2, '0', STR_PAD_LEFT);
-
-    // Insert Candidate Data
-    $insertQuery = "INSERT INTO candidates 
-        (id, name, email, mobile, position, qualification, experience, resume, HR_reference) 
-        VALUES 
-        ('$candidateID', '$candidateName', '$candidateEmail', '$candidateMobile', '$candidatePosition', '$candidateQualification', '$candidateExperience', '$resumePath', '$HR_reference')";
-
- // Send confirmation email
- $subject = "Your Job Application is in Process - AJ Info Tech";
- $message = "Hello $name,\n\nYour job application is in process with AJ Info Tech. 
- Your interview will be scheduled within a week with our manager.\n\nYour HR is $hr_reference.\n\nThank you!";
- $headers = "From: hr@ajinfotech.com";
- $to = $candidateEmail;
- mail($to, $subject, $message, $headers);
-
-
-
-
-
-    if (mysqli_query($conn, $insertQuery)) {
-        echo "<script>alert('Candidate Registered Successfully!'); window.location.href='dashboard.php';</script>";
+    // Check if the email already exists in the database
+    $emailCheckQuery = "SELECT * FROM candidates WHERE email = '$candidateEmail'";
+    $emailCheckResult = mysqli_query($conn, $emailCheckQuery);
+    if (mysqli_num_rows($emailCheckResult) > 0) {
+        echo "<script>alert('This email is already registered. Please enter a different email.');</script>";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        // Handle Resume Upload
+        $resumeName = $_FILES['candidateResume']['name'];
+        $resumeTmpName = $_FILES['candidateResume']['tmp_name'];
+        $resumePath = 'uploads/' . basename($resumeName);
+        move_uploaded_file($resumeTmpName, $resumePath);
+
+        // Insert Candidate Data
+        $insertQuery = "INSERT INTO candidates 
+            (name, email, mobile, position, qualification, experience, resume, HR_reference) 
+            VALUES 
+            ('$candidateName', '$candidateEmail', '$candidateMobile', '$candidatePosition', '$candidateQualification', '$candidateExperience', '$resumePath', '$HR_reference')";
+
+        if (mysqli_query($conn, $insertQuery)) {
+            // Send email to candidate
+            $subject = "Your Job Application is in Process - AJ Info Tech";
+            $message = "Hello $candidateName,\n\nYour job application is in process with AJ Info Tech. 
+ Your interview will be scheduled within a week with our manager.\n\nYour HR is $HR_reference.\n\nThank you!";
+ $headers = "From: hr@AJinfotech.in";  // Replace with your HR email address
+
+            if (mail($candidateEmail, $subject, $message, $headers)) {
+                echo "<script>alert('Candidate Registered Successfully! Confirmation email sent to the candidate.'); window.location.href='dashboard.php';</script>";
+            } else {
+                echo "<script>alert('Registration successful, but failed to send email.'); window.location.href='dashboard.php';</script>";
+            }
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+ <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register New Candidate</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="Register_body">
     <div class="container">
         <h1>Register New Candidate</h1>
         <form id="registerForm" action="" method="POST" enctype="multipart/form-data">
