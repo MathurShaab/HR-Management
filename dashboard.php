@@ -3,6 +3,13 @@
     if(!isset($_SESSION['name'])) {
         header('Location: index.php');
     }
+
+    if (isset($_GET['logout'])) {
+        session_unset();
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +24,7 @@
         <h1>Dashboard</h1>
         <div class="user-info">
             <p>Welcome, <?php echo $_SESSION['name']; ?></p>
-            <a href="index.php">Logout</a>
+            <a href="?logout=true">Logout</a>
         <div class="cards-container">
             <div class="card" onclick="navigateTo('interview.php')">
                 <h2>Interview Schedule</h2>
